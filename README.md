@@ -10,11 +10,15 @@ Evolutionary multi-objective optimization is a field that has experienced a rapi
 
 ## Repository description
 The repository contains the sources developed to implement the new self-adaptive polynomial mutation used in NSGA-II. It has been implemented in Java and it is based in the jMetal, a 
-Java-based framework for multi-objective optimization with metaheuristics developed by Antonio J. Nebro [jMetal project Web site](https://github.com/jMetal/jMetal)
+Java-based framework for multi-objective optimization with metaheuristics developed by Antonio J. Nebro ([jMetal project Web site](https://github.com/jMetal/jMetal.)
 
-Src folder keeps the source files of the new mutation operator and the required ammendments to jMetal NSGA-II implementation needed to support the extended solutions including the adapting polymomial mutation operator.
+The *src* folder keeps the source files of the new mutation operator and the required ammendments to jMetal NSGA-II implementation needed to support the extended solutions including the adapting polymomial mutation operator.
+
+The *experiments* folder contains the source files for every experiment run as well as the gathered results of the regular PLM applied in unmodified NSGA-II and the obtained whe applying the new
+self-adaptive PLM operator with the new version of NSGA-II.
 
 
+## 
 
 
 ## Licenses
