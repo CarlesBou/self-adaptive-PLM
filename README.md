@@ -23,7 +23,7 @@ problems using three quality metrics (hypervolume, generalized spread, and modif
 The repository contains the source files developed to implement the new self-adaptive polynomial mutation operator used in NSGA-II and
 the results of the experiments run to test the validity of the proposal. 
 It has been implemented in Java and it is based in version 5.1 of ***jMetal***, a Java-based framework for multi-objective optimization 
-with metaheuristics developed by Antonio J. Nebro ([jMetal project Web site](https://github.com/jMetal/jMetal.))
+with metaheuristics developed by Antonio J. Nebro ([jMetal project Web site](https://github.com/jMetal/jMetal).)
 
 The *src* folder keeps the source files of the new mutation operator and the required ammendments to jMetal's NSGA-II implementation needed 
 to support the extended solutions including the adapting PLM distribution index parameter.
