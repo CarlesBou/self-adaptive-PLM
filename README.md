@@ -26,7 +26,7 @@ It has been implemented in Java and it is based in version 5.1 of ***jMetal***, 
 with metaheuristics developed by Antonio J. Nebro ([jMetal project Web site](https://github.com/jMetal/jMetal.))
 
 The *src* folder keeps the source files of the new mutation operator and the required ammendments to jMetal's NSGA-II implementation needed 
-to support the extended solutions including the adapting PLM distribution index.
+to support the extended solutions including the adapting PLM distribution index parameter.
 
 The *experiments* folder contains the source files for every benchmark run as well as the gathered results of the regular PLM applied 
 in unmodified NSGA-II and the obtained when applying the new self-adaptive PLM operator with the new version of NSGA-II.
