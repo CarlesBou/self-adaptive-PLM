@@ -131,7 +131,7 @@ public class MyPolynomialMutation implements MutationOperator<MyDefaultDoubleSol
           delta2 = (yu - y) / (yu - yl);
           rnd = randomGenerator.getRandomValue();
 
-          mutPow = 1.0 / (distributionIndex + 1.0);
+          mutPow = 1.0 / (distrib_index + 1.0);
           
           if (rnd <= 0.5) {
             xy = 1.0 - delta1;

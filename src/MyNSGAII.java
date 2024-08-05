@@ -20,6 +20,10 @@ import java.util.Random;
 
 /**
  * @author Carles
+ * 
+ * Modified version of NSGAII implemented in jMetal to support the mutation distribution index
+ * evolution included in individual solutions
+ *
  */
 @SuppressWarnings("serial")
 public class MyNSGAII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, List<S>> {
@@ -83,9 +87,7 @@ public class MyNSGAII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S,
 
     S s = population.get(0);
     double mutpar = (double) s.getAttribute("mutpar");
-    
-    //System.out.printf("mutpar[0]=%f\n", mutpar * (25 - 1) + 1);
-    
+
     return population;
   }
 
@@ -132,20 +134,6 @@ public class MyNSGAII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S,
 	  return mutpar;
   }
   
-  void new_modif_distrib(List<S> sols, double mutpar) {
-	  double tau = 0.1;
-		 
-	  double r1 = JMetalRandom.getInstance().nextDouble();
-	  
-	  if (r1 < tau) {
-		  //mutpar = Math.abs(mutpar) - (int) mutpar;
-		  
-		  for (S s : sols) {
-			  s.setAttribute("mutpar", mutpar);
-		  }
-	  }	  
-  }
-
   void modif_distrib(List<S> sols) {
 	  double tau = 0.1;
 	  //double tau = 1;
@@ -154,26 +142,6 @@ public class MyNSGAII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S,
 	  
 	  if (r1 < tau) {
 		  double mutpar = get_modif_distrib(sols);
-		  
-		  //for (S s : sols) {
-			//  mutpar += (double) s.getAttribute("mutpar");
-		  //}
-		  //mutpar = mutpar / sols.size();
-		  
-		  //Random r = new Random();
-		  
-		  //mutpar = mutpar + r.nextGaussian();
-		  
-		  //mutpar = mutpar + new LogNormalDistribution().sample();
-		  /*if (mutpar < 0) 
-			  mutpar = 0;
-		  if (mutpar > 1)
-			  mutpar = 1;
-		  */
-		 
-		  //mutpar = mutpar - (int) mutpar;
-		  //mutpar = Math.abs(mutpar) - (int) mutpar;
-		  
 		  for (S s : sols) {
 			  s.setAttribute("mutpar", mutpar);
 		  }
@@ -210,72 +178,17 @@ public class MyNSGAII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S,
         parents.add(matingPool.get(i+j));
       }
 
-      // Carles: modificamos mut_par
-      //for (S s : parents) {
-      //	modif_distrib(s);
-      //}
-      //double mut_par = get_modif_distrib(parents);
+      // Carles: modify mut_par for every parent      
+	  modif_distrib(parents);
       
-      modif_distrib(parents);
-      
+	  // Apply crossover
       List<S> offspring = crossoverOperator.execute(parents);
 
-//      System.out.printf("\nANTES mutpar(0)=%f, mutpar(1)=%f, child(0)=%f, child(1)=%f\n",
-//    		  (double) parents.get(0).getAttribute("mutpar"),
-//    		  (double) parents.get(1).getAttribute("mutpar"),
-//    		  (double) offspring.get(0).getAttribute("mutpar"),
-//    		  (double) offspring.get(1).getAttribute("mutpar")
-//    		  );
-      
-      // modif_distrib(parents);
-      
-      //System.out.printf("SIZEOF OFFSPRING=%d, PARENTS=%d\n", offspring.size(), parents.size());
-      //new_modif_distrib(offspring, mut_par);
+	  // Set initial mut_par in each child
       offspring.get(0).setAttribute("mutpar", (double) parents.get(0).getAttribute("mutpar"));
       offspring.get(1).setAttribute("mutpar", (double) parents.get(1).getAttribute("mutpar"));
       
-  
-//      System.out.printf("DESPUES mutpar(0)=%f, mutpar(1)=%f, child(0)=%f, child(1)=%f\n",
-//    		  (double) parents.get(0).getAttribute("mutpar"),
-//    		  (double) parents.get(1).getAttribute("mutpar"),
-//    		  (double) offspring.get(0).getAttribute("mutpar"),
-//    		  (double) offspring.get(1).getAttribute("mutpar")
-//    		  );
-      
-      for(S s: offspring){
-        mutationOperator.execute(s);
-        offspringPopulation.add(s);
-        if (offspringPopulation.size() >= offspringPopulationSize)
-          break;
-      }
-    }
-    return offspringPopulation;
-  }
-
-  protected List<S> reproduction_old_220502(List<S> matingPool) {
-    int numberOfParents = crossoverOperator.getNumberOfRequiredParents() ;
-
-    checkNumberOfParents(matingPool, numberOfParents);
-
-    List<S> offspringPopulation = new ArrayList<>(offspringPopulationSize);
-    for (int i = 0; i < matingPool.size(); i += numberOfParents) {
-      List<S> parents = new ArrayList<>(numberOfParents);
-      for (int j = 0; j < numberOfParents; j++) {
-        parents.add(matingPool.get(i+j));
-      }
-
-      // Carles: modificamos mut_par
-      //for (S s : parents) {
-      //	modif_distrib(s);
-      //}
-      //double mut_par = get_modif_distrib(parents);
-      
-      modif_distrib(parents);
-      
-      List<S> offspring = crossoverOperator.execute(parents);
-
-      //new_modif_distrib(offspring, mut_par);
-      
+	  // Apply mutation
       for(S s: offspring){
         mutationOperator.execute(s);
         offspringPopulation.add(s);
