@@ -36,5 +36,5 @@ in unmodified NSGA-II and the obtained when applying the new self-adaptive PLM o
 
 
 ## Licenses
-This work is dual-licensed under Creative Commons Zero v1.0 Universal (or any later version) for our contribution and MIT license for parts 
+This work is dual-licensed under Creative Commons Zero v1.0 Universal (or any later version) license for our contribution and MIT license for parts 
 coming from the *jMetal* framework.
